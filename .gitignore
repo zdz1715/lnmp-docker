@@ -1,3 +1,5 @@
 .idea
-www
-nginx/log
+www/*
+!www/default
+nginx/conf.d
+log

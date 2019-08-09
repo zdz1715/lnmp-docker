@@ -7,7 +7,23 @@ services:
       - ${NGINX_HTTP_PORT}:80
       - ${NGINX_HTTPS_PORT}:443
     volumes:
-      - ./www:/var/www/html/:rw
-      - ./nginx/conf.d:/etc/nginx/config.d/:rw
+      - ./www:/srv/www:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:rw
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/log:/var/log/nginx/:rw
+      - ./log/nginx:/var/log/nginx/:rw
+    environment:
+        TZ: "$TZ"
+  php:
+    build:
+      context: .
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+        TZ: "$TZ"
+        PHP_EXTENSIONS: ${PHP_EXTENSIONS}
+        PHP_BUILD_EXTENSIONS_DIR: ${PHP_BUILD_EXTENSIONS_DIR}
+    volumes:
+      - ./www:/srv/www/:rw
+      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ./log/php:/var/log/php
+    restart: always
