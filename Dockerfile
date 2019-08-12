@@ -21,5 +21,5 @@ RUN chmod +x install.sh \
     && rm -rf  ${PHP_BUILD_EXTENSIONS_DIR}\
     && echo 'end'
 
-WORKDIR /var/www/html
+WORKDIR /srv/www
 
