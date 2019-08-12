@@ -14,12 +14,10 @@ COPY ./php/ext ${PHP_BUILD_EXTENSIONS_DIR}
 WORKDIR ${PHP_BUILD_EXTENSIONS_DIR}
 
 ENV EXTENSIONS = ",${PHP_EXTENSIONS},"
-ENV MC="-j $(nproc)"
 
-RUN chmod +x install.sh \
+RUN export MC="-j$(nproc)" &&  \
+    chmod +x install.sh \
     && sh install.sh \
-    && rm -rf  ${PHP_BUILD_EXTENSIONS_DIR}\
-    && echo 'end'
+    && rm -rf  ${PHP_BUILD_EXTENSIONS_DIR}
 
 WORKDIR /srv/www
-
