@@ -11,10 +11,6 @@ echo
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
     echo "---------- Install general dependencies ----------"
-    # 换源
-    sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-    apk update
-
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         autoconf \
@@ -34,6 +30,12 @@ if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
     docker-php-ext-install ${MC} mysqli
 fi
 
+
+if [ -z "${EXTENSIONS##*,redis,*}" ]; then
+    echo "---------- Install redis ----------"
+    pecl install redis
+    docker-php-ext-enable redis
+fi
 
 echo "---------- Del  build-deps ----------"
 if [ "${PHP_EXTENSIONS}" != "" ]; then
