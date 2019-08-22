@@ -26,10 +26,14 @@ fi
 echo "---------- Install extra dependencies ----------"
 
 if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
-    echo "---------- mysqli ----------"
+    echo "---------- Install mysqli ----------"
     docker-php-ext-install ${MC} mysqli
 fi
 
+if [ -z "${EXTENSIONS##*,pdo_mysql,*}" ]; then
+    echo "---------- Install pdo_mysql ----------"
+    docker-php-ext-install ${MC} pdo_mysql
+fi
 
 if [ -z "${EXTENSIONS##*,redis,*}" ]; then
     echo "---------- Install redis ----------"
@@ -37,9 +41,10 @@ if [ -z "${EXTENSIONS##*,redis,*}" ]; then
     docker-php-ext-enable redis
 fi
 
-echo "---------- Del  build-deps ----------"
+
 if [ "${PHP_EXTENSIONS}" != "" ]; then
-    	apk del .build-deps
+    echo "---------- Del  build-deps ----------"
+    apk del .build-deps
 fi
 
 
