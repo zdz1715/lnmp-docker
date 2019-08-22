@@ -24,6 +24,7 @@ services:
         PHP_EXTENSIONS: ${PHP_EXTENSIONS}
         PHP_BUILD_EXTENSIONS_DIR: ${PHP_BUILD_EXTENSIONS_DIR}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+        PHP_PECL_REDIS_VERSION: ${PHP_PECL_REDIS_VERSION}
     volumes:
       - ./www:/srv/www/:rw
       - ./php/php.ini:/usr/local/etc/php/php.ini:ro
