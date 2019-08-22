@@ -6,6 +6,7 @@ ARG PHP_EXTENSIONS
 ARG PHP_BUILD_EXTENSIONS_DIR
 ARG ALPINE_REPOSITORIES
 ARG PHP_PECL_REDIS_VERSION
+ARG PHP_DEFAULT_INI_MODE
 
 # 换源
 RUN if [ "${ALPINE_REPOSITORIES}" != "" ]; then \
@@ -26,8 +27,9 @@ WORKDIR ${PHP_BUILD_EXTENSIONS_DIR}
 
 ENV EXTENSIONS = ",${PHP_EXTENSIONS},"
 
-RUN export MC="-j$(nproc)" &&  \
-    chmod +x install.sh \
+RUN export MC="-j$(nproc)" \
+    && cp /usr/local/etc/php/php.ini-${PHP_DEFAULT_INI_MODE} /usr/local/etc/php/php.ini \
+    && chmod +x install.sh \
     && sh install.sh \
     && rm -rf  ${PHP_BUILD_EXTENSIONS_DIR}
 

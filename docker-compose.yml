@@ -25,9 +25,10 @@ services:
         PHP_BUILD_EXTENSIONS_DIR: ${PHP_BUILD_EXTENSIONS_DIR}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         PHP_PECL_REDIS_VERSION: ${PHP_PECL_REDIS_VERSION}
+        PHP_DEFAULT_INI_MODE: ${PHP_DEFAULT_INI_MODE}
     volumes:
       - ./www:/srv/www/:rw
-      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./php/php.ini:/usr/local/etc/php/conf.d/my.ini:ro
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
       - ./log/php:/var/log/php:rw
     restart: always

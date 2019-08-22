@@ -12,15 +12,7 @@ echo
 if [ "${PHP_EXTENSIONS}" != "" ]; then
     echo "---------- Install general dependencies ----------"
     apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        autoconf \
-        freetype-dev \
-        icu-dev \
-        libjpeg-turbo-dev \
-        libpng-dev \
-        libzip-dev \
-        openldap-dev \
-        pcre-dev
+        $PHPIZE_DEPS
 fi
 
 echo "---------- Install extra dependencies ----------"
@@ -32,7 +24,13 @@ fi
 
 if [ -z "${EXTENSIONS##*,gd,*}" ]; then
     echo "---------- Install gd ----------"
+    apk add --no-cache --virtual .build-gd-deps \
+        freetype-dev \
+        libjpeg-turbo-dev \
+        libpng-dev
+    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
     docker-php-ext-install ${MC} gd
+    apk del .build-gd-deps
 fi
 
 if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
@@ -58,7 +56,11 @@ fi
 
 if [ -z "${EXTENSIONS##*,zip,*}" ]; then
     echo "---------- Install zip ----------"
+    apk add --no-cache --virtual .build-zip-deps \
+       libzip-dev
+
     docker-php-ext-install ${MC} zip
+    apk del .build-zip-deps
 fi
 
 echo "---------- Install Complete ---------"
