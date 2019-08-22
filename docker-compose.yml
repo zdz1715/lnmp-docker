@@ -13,6 +13,8 @@ services:
       - ./log/nginx:/var/log/nginx/:rw
     environment:
         TZ: "$TZ"
+    networks:
+      - default
   php:
     build:
       context: .
@@ -22,9 +24,40 @@ services:
         PHP_EXTENSIONS: ${PHP_EXTENSIONS}
         PHP_BUILD_EXTENSIONS_DIR: ${PHP_BUILD_EXTENSIONS_DIR}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+        PHP_PECL_REDIS_VERSION: ${PHP_PECL_REDIS_VERSION}
     volumes:
       - ./www:/srv/www/:rw
       - ./php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ./log/php:/var/log/php
+      - ./log/php:/var/log/php:rw
     restart: always
+    networks:
+      - default
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    ports:
+      - ${MYSQL_PORT}:3306
+    restart: always
+    volumes:
+      - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      - ./mysql/data:/var/lib/mysql/:rw
+    networks:
+        - default
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: "$TZ"
+  redis:
+    image: redis:${REDIS_VERSION}
+    ports:
+      - ${REDIS_PORT}:6379
+    restart: always
+    volumes:
+      - ./redis/data:/data:rw
+      - ./redis/conf/redis.conf:/etc/redis.conf:ro
+    entrypoint: ["redis-server", "/etc/redis.conf"]
+    networks:
+      - default
+    environment:
+      TZ: "$TZ"
+
+

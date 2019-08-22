@@ -25,21 +25,46 @@ fi
 
 echo "---------- Install extra dependencies ----------"
 
+if [ -z "${EXTENSIONS##*,bcmath,*}" ]; then
+    echo "---------- Install bcmath ----------"
+    docker-php-ext-install ${MC} bcmath
+fi
+
+if [ -z "${EXTENSIONS##*,gd,*}" ]; then
+    echo "---------- Install gd ----------"
+    docker-php-ext-install ${MC} gd
+fi
+
 if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
-    echo "---------- mysqli ----------"
+    echo "---------- Install mysqli ----------"
     docker-php-ext-install ${MC} mysqli
 fi
 
+if [ -z "${EXTENSIONS##*,opcache,*}" ]; then
+    echo "---------- Install opcache ----------"
+    docker-php-ext-install ${MC} opcache
+fi
+
+if [ -z "${EXTENSIONS##*,pdo_mysql,*}" ]; then
+    echo "---------- Install pdo_mysql ----------"
+    docker-php-ext-install ${MC} pdo_mysql
+fi
 
 if [ -z "${EXTENSIONS##*,redis,*}" ]; then
     echo "---------- Install redis ----------"
-    pecl install redis
+    pecl install redis-${PHP_PECL_REDIS_VERSION}
     docker-php-ext-enable redis
 fi
 
-echo "---------- Del  build-deps ----------"
-if [ "${PHP_EXTENSIONS}" != "" ]; then
-    	apk del .build-deps
+if [ -z "${EXTENSIONS##*,zip,*}" ]; then
+    echo "---------- Install zip ----------"
+    docker-php-ext-install ${MC} zip
 fi
 
+echo "---------- Install Complete ---------"
+
+if [ "${PHP_EXTENSIONS}" != "" ]; then
+    echo "---------- Del  build-deps ----------"
+    apk del .build-deps
+fi
 
