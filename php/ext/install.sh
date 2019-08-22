@@ -30,7 +30,6 @@ if [ -z "${EXTENSIONS##*,gd,*}" ]; then
         libpng-dev
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
     docker-php-ext-install ${MC} gd
-    apk del .build-gd-deps
 fi
 
 if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
@@ -60,7 +59,6 @@ if [ -z "${EXTENSIONS##*,zip,*}" ]; then
        libzip-dev
 
     docker-php-ext-install ${MC} zip
-    apk del .build-zip-deps
 fi
 
 echo "---------- Install Complete ---------"
