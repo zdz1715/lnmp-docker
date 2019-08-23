@@ -25,6 +25,7 @@ services:
         PHP_BUILD_EXTENSIONS_DIR: ${PHP_BUILD_EXTENSIONS_DIR}
         ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
         PHP_PECL_REDIS_VERSION: ${PHP_PECL_REDIS_VERSION}
+        PHP_PECL_MONGODB_VERSION: ${PHP_PECL_MONGODB_VERSION}
         PHP_DEFAULT_INI_MODE: ${PHP_DEFAULT_INI_MODE}
     volumes:
       - ./www:/srv/www/:rw
@@ -60,5 +61,13 @@ services:
       - default
     environment:
       TZ: "$TZ"
-
-
+  mongodb:
+    image: mongo:${MONGO_VERSION}
+    ports:
+      - ${MONGO_PORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      TZ: "$TZ"
+    networks:
+      - default
