@@ -31,6 +31,7 @@ ENV EXTENSIONS = ",${PHP_EXTENSIONS},"
 RUN export MC="-j$(nproc)" \
     && cp /usr/local/etc/php/php.ini-${PHP_DEFAULT_INI_MODE} /usr/local/etc/php/php.ini \
     && chmod +x install.sh \
+    && dos2unix install.sh \
     && sh install.sh \
     && rm -rf  ${PHP_BUILD_EXTENSIONS_DIR}
 

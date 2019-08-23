@@ -12,7 +12,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./log/nginx:/var/log/nginx/:rw
     environment:
-        TZ: "$TZ"
+      TZ: "$TZ"
     networks:
       - default
   php:
@@ -42,9 +42,8 @@ services:
     restart: always
     volumes:
       - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
-      - ./mysql/data:/var/lib/mysql/:rw
     networks:
-        - default
+      - default
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: "$TZ"
@@ -65,9 +64,10 @@ services:
     image: mongo:${MONGO_VERSION}
     ports:
       - ${MONGO_PORT}:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./mongo/conf/mongod.yml:/etc/mongod.conf:rw
+      - ./log/mongo/:/var/log/mongodb
+    entrypoint: mongod -f /etc/mongod.conf
       TZ: "$TZ"
     networks:
       - default

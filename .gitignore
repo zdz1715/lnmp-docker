@@ -8,3 +8,4 @@ nginx/conf.d/*
 log
 mysql/data
 redis/data
+mongodb/data
