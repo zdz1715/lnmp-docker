@@ -68,6 +68,7 @@ services:
       - ./mongo/conf/mongod.yml:/etc/mongod.conf:rw
       - ./log/mongo/:/var/log/mongodb
     entrypoint: mongod -f /etc/mongod.conf
+    environment:
       TZ: "$TZ"
     networks:
       - default
