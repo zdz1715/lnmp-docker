@@ -10,6 +10,7 @@ services:
       - ${WEB_DIR}:/srv/www:rw
       - ./nginx/conf.d/:/etc/nginx/conf.d/:rw
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/rewrite/:/etc/nginx/rewrite:ro
       - ./log/nginx:/var/log/nginx/:rw
     environment:
       TZ: "$TZ"
