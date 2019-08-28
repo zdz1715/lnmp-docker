@@ -9,4 +9,3 @@ log
 mysql/data
 redis/data
 mongodb/data
-nginx/conf.d/ssl
