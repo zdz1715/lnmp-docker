@@ -37,11 +37,20 @@ if [ -z "${EXTENSIONS##*,mysqli,*}" ]; then
     docker-php-ext-install ${MC} mysqli
 fi
 
+if [ -z "${EXTENSIONS##*,openssl,*}" ]; then
+    echo "---------- Install openssl ----------"
+    apk add --no-cache --virtual .build-openssl-deps \
+        libressl-dev
+
+fi
+
 if [ -z "${EXTENSIONS##*,mongodb,*}" ]; then
     echo "---------- Install mongodb ----------"
     pecl install mongodb-${PHP_PECL_MONGODB_VERSION}
     docker-php-ext-enable mongodb
 fi
+
+
 
 if [ -z "${EXTENSIONS##*,opcache,*}" ]; then
     echo "---------- Install opcache ----------"
