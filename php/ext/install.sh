@@ -76,6 +76,16 @@ if [ -z "${EXTENSIONS##*,zip,*}" ]; then
     docker-php-ext-install ${MC} zip
 fi
 
+if [ -z "${EXTENSIONS##*,amqp,*}" ]; then
+    echo "---------- Install amqp ----------"
+    apk add --no-cache --virtual .build-amqp-deps \
+       rabbitmq-c-dev
+
+    pecl install amqp ${PHP_PECL_AMQP_VERSION}
+
+    docker-php-ext-enable amqp
+fi
+
 echo "---------- Install Complete ---------"
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
