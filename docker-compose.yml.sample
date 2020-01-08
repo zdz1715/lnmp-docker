@@ -43,6 +43,7 @@ services:
     restart: always
     volumes:
       - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      - ./log/mysql:/var/log/mysql/:rw
     networks:
       - default
     environment:
