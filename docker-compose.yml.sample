@@ -8,10 +8,10 @@ services:
       - ${NGINX_HTTPS_PORT}:443
     volumes:
       - ${WEB_DIR}:/srv/www:rw
-      - ./nginx/conf.d/:/etc/nginx/conf.d/:rw
+      - ./nginx/conf.d:/etc/nginx/conf.d/:rw
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/extend:/etc/nginx/extend
-      - ./log/nginx:/var/log/nginx/:rw
+      - ./nginx/log:/var/log/nginx/:rw
     environment:
       TZ: "$TZ"
     networks:
@@ -32,7 +32,7 @@ services:
       - ${WEB_DIR}:/srv/www:rw
       - ./php/php.ini:/usr/local/etc/php/conf.d/my.ini:ro
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
-      - ./log/php:/var/log/php:rw
+      - ./php/php:/var/log/php:rw
     restart: always
     networks:
       - default
@@ -43,7 +43,8 @@ services:
     restart: always
     volumes:
       - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
-      - ./log/mysql:/var/log/mysql/:rw
+      - ./mysql/log:/var/log/mysql/:rw
+      - ./mysql/data:/var/lib/mysql/:rw
     networks:
       - default
     environment:
@@ -57,6 +58,7 @@ services:
     volumes:
       - ./redis/data:/data:rw
       - ./redis/conf/redis.conf:/etc/redis.conf:ro
+      - ./redis/log:/var/log/redis
     entrypoint: ["redis-server", "/etc/redis.conf"]
     networks:
       - default
@@ -68,7 +70,7 @@ services:
       - ${MONGO_PORT}:27017
     volumes:
       - ./mongo/conf/mongod.yml:/etc/mongod.conf:rw
-      - ./log/mongo/:/var/log/mongodb
+      - ./mongo/log:/var/log/mongodb
     entrypoint: mongod -f /etc/mongod.conf
     environment:
       TZ: "$TZ"
