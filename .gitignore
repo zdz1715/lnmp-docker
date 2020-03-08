@@ -5,7 +5,7 @@ www/*
 !www/default
 nginx/conf.d/*
 !nginx/conf.d/default.conf
-log
 mysql/data
 redis/data
 mongodb/data
+log
