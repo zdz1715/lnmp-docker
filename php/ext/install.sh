@@ -86,6 +86,23 @@ if [ -z "${EXTENSIONS##*,amqp,*}" ]; then
     docker-php-ext-enable amqp
 fi
 
+if [ -z "${EXTENSIONS##*,rdkafka,*}" ]; then
+    echo "---------- Install rdkafka ----------"
+    apk add --no-cache --virtual .build-rdkafka-deps \
+       librdkafka-dev
+
+    pecl install rdkafka
+
+    docker-php-ext-enable rdkafka
+fi
+
+if [ -z "${EXTENSIONS##*,swoole,*}" ]; then
+    echo "---------- Install swoole ----------"
+    pecl install swoole
+
+    docker-php-ext-enable swoole
+fi
+
 echo "---------- Install Complete ---------"
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
