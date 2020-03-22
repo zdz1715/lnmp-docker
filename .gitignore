@@ -1,5 +1,4 @@
 .idea
-.env
 docker-compose.yml
 www/*
 !www/default

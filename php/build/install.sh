@@ -46,7 +46,7 @@ fi
 
 if [ -z "${EXTENSIONS##*,mongodb,*}" ]; then
     echo "---------- Install mongodb ----------"
-    pecl install mongodb-${PHP_PECL_MONGODB_VERSION}
+    pecl install mongodb
     docker-php-ext-enable mongodb
 fi
 
@@ -64,7 +64,7 @@ fi
 
 if [ -z "${EXTENSIONS##*,redis,*}" ]; then
     echo "---------- Install redis ----------"
-    pecl install redis-${PHP_PECL_REDIS_VERSION}
+    pecl install redis
     docker-php-ext-enable redis
 fi
 
@@ -81,7 +81,7 @@ if [ -z "${EXTENSIONS##*,amqp,*}" ]; then
     apk add --no-cache --virtual .build-amqp-deps \
        rabbitmq-c-dev
 
-    pecl install amqp ${PHP_PECL_AMQP_VERSION}
+    pecl install amqp
 
     docker-php-ext-enable amqp
 fi
