@@ -6,16 +6,15 @@ services:
     build:
       context: .
       args:
-        TZ: "Asia/Shanghai"
-        ALPINE_REPOSITORIES: "mirrors.aliyun.com"
-        PHP_VERSION: "7.4.1"
-        # all: bcmath,mysqli,opcache,pdo_mysql,redis,zip,gd,mongodb,openssl,rdkafka,swoole
-        PHP_EXTENSIONS: "bcmath,mysqli,opcache,pdo_mysql,redis,zip,gd,mongodb,openssl,rdkafka,swoole"
+        TZ: ${TZ}
+        ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+        PHP_VERSION: ${PHP_VERSION:-7.4.3}
+        PHP_EXTENSIONS: ${PHP_EXTENSIONS}
     ports:
       - 80:80
       - 433:433
     volumes:
-      - /srv/www:/srv/www
+      - ${WEB_DIR:-/srv/www}:/srv/www
       - ./php/php.ini:/usr/local/etc/php/conf.d/my.ini
       - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
       - ./nginx/conf.d:/etc/nginx/conf.d/
@@ -26,7 +25,7 @@ services:
     networks:
       - default
   mysql:
-    image: mysql:5.7
+    image: mysql:${MYSQL_IMAGE_VERSION:-latest}
     ports:
       - 3306:3306
     restart: always
@@ -34,13 +33,13 @@ services:
       - ./mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
       - ./log/mysql:/var/log/mysql/:rw
       - ./mysql/data:/var/lib/mysql/:rw
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TZ}
     networks:
       - default
-    environment:
-      MYSQL_ROOT_PASSWORD: "123456"
-      TZ: "$TZ"
   redis:
-    image: redis:5.0.5-alpine
+    image: redis:${REDIS_IMAGE_VERSION:-latest}
     ports:
       - 6379:6379
     restart: always
@@ -48,22 +47,24 @@ services:
       - ./redis/data:/data:rw
       - ./redis/conf/redis.conf:/etc/redis.conf:ro
       - ./log/redis:/var/log/redis
-    entrypoint: ["redis-server", "/etc/redis.conf"]
+    command: ["redis-server", "/etc/redis.conf"]
     networks:
       - default
     environment:
-      TZ: "$TZ"
+      TZ: ${TZ}
   mongo:
-    image: mongo:4.2
+    image: mongo:${MONGO_IMAGE_VERSION:-latest}
     ports:
       - 27017:27017
+    restart: always
     volumes:
       - ./mongo/conf/mongod.yml:/etc/mongod.conf:rw
       - ./log/mongo:/var/log/mongo
-    entrypoint: mongod -f /etc/mongod.conf
     environment:
-      TZ: "$TZ"
-      MONGO_INITDB_ROOT_USERNAME: "mongo"
-      MONGO_INITDB_ROOT_PASSWORD: "test"
+      TZ: ${TZ}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    # 配置文件 换行符不能是CRLF和CR
+    command: mongod --config /etc/mongod.conf
     networks:
       - default
