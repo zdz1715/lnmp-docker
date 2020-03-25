@@ -7,9 +7,10 @@
 * mongo-express：mongod管理界面
 
 ### 使用方法
-1.复制`docker-compose.yml.sample、.env.sample`分别为
-`docker-compose.yml、.env`，
-2.选择使用已有app镜像还是自己构建，取消相对应注释
+1. 复制`docker-compose.yml.sample、.env.sample`分别为
+`docker-compose.yml、.env`
+2. 选择使用已有app镜像还是自己构建，取消相对应注释
+3. 执行`docker-compose up`或者后台运行`docker-compose up -d`
 ```dockerfile
 version: '3'
 services:
@@ -27,7 +28,7 @@ services:
 
 ``` 
 
-3.执行`docker-compose up`或者后台运行`docker-compose up -d`
+
 
 #### php扩展
 根据`.env`里的`PHP_EXTENSIONS`值安装，请根据需要安装，减少构建时间，支持的扩展如下：
