@@ -1,0 +1,20 @@
+{
+  "name": "lnmp-docker",
+  "version": "1.0.0",
+  "description": "* app：基于alpine的php-fpm和nginx的镜像\r * mysql\r * redis\r * mongo\r * mongo-express：mongod管理界面",
+  "main": "index.js",
+  "scripts": {
+    "docker-build": "docker build -f Dockerfile -t zdzserver/lnmp-app .",
+    "docker-push": "docker push zdzserver/lnmp-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zdz1715/lnmp-docker.git"
+  },
+  "author": "zdzserver",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zdz1715/lnmp-docker/issues"
+  },
+  "homepage": "https://github.com/zdz1715/lnmp-docker#readme"
+}

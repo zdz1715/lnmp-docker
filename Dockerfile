@@ -1,9 +1,9 @@
-ARG PHP_VERSION
+ARG PHP_VERSION=7.4.3
 # alpine php-fpm
 FROM php:${PHP_VERSION}-fpm-alpine
-ARG TZ
-ARG ALPINE_REPOSITORIES
-ARG PHP_EXTENSIONS
+ARG TZ=Asia/Shanghai
+ARG ALPINE_REPOSITORIES=mirrors.aliyun.com
+ARG PHP_EXTENSIONS=bcmath,mysqli,opcache,pdo_mysql,redis,zip,gd,mongodb,openssl,rdkafka,swoole,amqp,soap
 
 # 换源
 RUN if [ "${ALPINE_REPOSITORIES}" != "" ]; then \
@@ -19,7 +19,7 @@ RUN apk --no-cache add tzdata \
     && echo "$TZ" > /etc/timezone
 
 # 安装nginx
-RUN apk add nginx
+RUN apk add nginx && mkdir
 
 # 安装php扩展
 COPY ./php/build /tmp/php-build
