@@ -103,6 +103,12 @@ if [ -z "${EXTENSIONS##*,swoole,*}" ]; then
     docker-php-ext-enable swoole
 fi
 
+if [ -z "${EXTENSIONS##*,soap,*}" ]; then
+    echo "---------- Install soap ----------"
+    apk add --no-cache libxml2-dev
+	  docker-php-ext-install ${MC} soap
+fi
+
 echo "---------- Install Complete ---------"
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then

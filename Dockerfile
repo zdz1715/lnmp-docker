@@ -33,6 +33,10 @@ RUN export MC="-j$(nproc)" \
     && sh install.sh \
     && rm -rf  /tmp/php-build
 
+# 安装composer
+RUN curl -o /usr/bin/composer https://mirrors.aliyun.com/composer/composer.phar \
+    && chmod +x /usr/bin/composer
+
 EXPOSE 80 433
 WORKDIR /srv/www
 
