@@ -3,13 +3,14 @@ services:
   app:
     cap_add:
       - SYS_PTRACE
-    build:
-      context: .
-      args:
-        TZ: ${TZ}
-        ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
-        PHP_VERSION: ${PHP_VERSION:-7.4.3}
-        PHP_EXTENSIONS: ${PHP_EXTENSIONS}
+#    image: zdzserver/lnmp-app # 使用已有的镜像（快速）
+#    build: # 自己构建（php安装扩展越多，越慢）
+#      context: .
+#      args:
+#        TZ: ${TZ}
+#        ALPINE_REPOSITORIES: ${ALPINE_REPOSITORIES}
+#        PHP_VERSION: ${PHP_VERSION:-7.4.3}
+#        PHP_EXTENSIONS: ${PHP_EXTENSIONS}}
     ports:
       - 80:80
       - 433:433
