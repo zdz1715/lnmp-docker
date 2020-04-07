@@ -3,7 +3,7 @@ ARG PHP_VERSION=7.4.3
 FROM php:${PHP_VERSION}-fpm-alpine
 ARG TZ=Asia/Shanghai
 ARG ALPINE_REPOSITORIES=mirrors.aliyun.com
-ARG PHP_EXTENSIONS=bcmath,mysqli,opcache,pdo_mysql,redis,zip,gd,mongodb,openssl,rdkafka,swoole,amqp,soap
+ARG PHP_EXTENSIONS=bcmath,mysqli,opcache,pdo_mysql,redis,zip,gd,mongodb,openssl,rdkafka,swoole,amqp,soap,xdebug
 
 # 换源
 RUN if [ "${ALPINE_REPOSITORIES}" != "" ]; then \
@@ -19,7 +19,7 @@ RUN apk --no-cache add tzdata \
     && echo "$TZ" > /etc/timezone
 
 # 安装nginx
-RUN apk add nginx && mkdir
+RUN apk add nginx && mkdir /var/run/nginx
 
 # 安装php扩展
 COPY ./php/build /tmp/php-build

@@ -109,6 +109,12 @@ if [ -z "${EXTENSIONS##*,soap,*}" ]; then
 	  docker-php-ext-install ${MC} soap
 fi
 
+if [ -z "${EXTENSIONS##*,xdebug,*}" ]; then
+    echo "---------- Install xdebug ----------"
+    pecl install xdebug
+    docker-php-ext-enable xdebug
+fi
+
 echo "---------- Install Complete ---------"
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then

@@ -14,6 +14,7 @@ services:
     ports:
       - 80:80
       - 433:433
+    restart: always
     volumes:
       - ${WEB_DIR:-/srv/www}:/srv/www
       - ./php/php.ini:/usr/local/etc/php/conf.d/my.ini

@@ -45,4 +45,5 @@ services:
 * swoole
 * amqp
 * soap
+* xdebug
 
