@@ -1,3 +1,5 @@
+# 此项目已废弃，请移步至https://github.com/zdz1715/runtime-image
+
 # php docker集成环境
 ### 包含的镜像：
 * app：基于alpine的php-fpm和nginx的镜像
